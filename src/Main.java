@@ -39,13 +39,14 @@ public class Main {
         ArrayList<Integer> guessedLetters = new ArrayList<>();
         ArrayList<Character> namedLetters = new ArrayList<>();
         int playerQueueCounter = 0;
-        while(false){
+        while(isVictory){
             System.out.println(words.get(0).description);
             System.out.println(players.get(playerQueueCounter).name + ", your turn.");
             String playersAnswer = scanner.nextLine();
             if(playersAnswer.length() > 1){
                 if(playersAnswer.equals(hiddenWord)){
                     System.out.println("Congratulations, you have won. Your score is " + players.get(playerQueueCounter).score);
+                    isVictory = true;
                 }
                 else{
                     System.out.println("Unfortunately, this is the wrong word." + players.get(playerQueueCounter).name + "You are out of the game.");
@@ -54,10 +55,20 @@ public class Main {
 
             }
             else{
-                checkLetter(playersAnswer, hiddenWord);
-
-
+                if(checkLetter(playersAnswer, hiddenWord, guessedLetters)){
+                    players.get(playerQueueCounter).score += 100;
+                }
+                else{
+                    System.out.println("Unfortunately, this letter is not in the word.");
+                }
             }
+            if(playerQueueCounter < players.size() - 1 && !checkLetter(playersAnswer, hiddenWord, guessedLetters)){
+                playerQueueCounter++;
+            }
+            else if(playerQueueCounter == players.size() - 1 &&  !checkLetter(playersAnswer, hiddenWord, guessedLetters)){
+                playerQueueCounter = 0;
+            }
+            
         }
 
 
@@ -65,10 +76,11 @@ public class Main {
 
 
     }
-    public static boolean checkLetter(String letter, StringBuilder word){
+    public static boolean checkLetter(String letter, StringBuilder word, ArrayList<Integer> guessedletters){
          boolean hasLetter = false;
         for (int i = 0; i < word.length(); i++) {
             if(letter.equals(word.charAt(i))){
+                guessedletters.add(i);
                 hasLetter = true;
             }
         }
