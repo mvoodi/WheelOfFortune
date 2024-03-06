@@ -48,14 +48,6 @@ public class Main {
         }
         clearConsole();
         
-        // System.out.println(words.get(0).description);
-        // System.out.println();
-        // for (int i = 0; i < words.get(0).word.length(); i++) {
-        //     System.out.print("\u001B[34m" + "█ " + "\u001B[0m");
-        // }
-        // System.out.println();
-        
-        
         while(!isVictory){
             boolean hasSecondMove = false;
             clearConsole();
@@ -166,6 +158,7 @@ public class Main {
                                 throw new RuntimeException(e);
                             }
                             isVictory = true;
+                            break;
                         }
                         else{
                             clearConsole();
